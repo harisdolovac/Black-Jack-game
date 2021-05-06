@@ -1,0 +1,53 @@
+.wrapper_home {
+  width: 100%;
+  height: 100vh;
+  background-color: green;
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  justify-content: space-around;
+}
+.box {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  position: absolute;
+  opacity: 0.8;
+}
+.hidden {
+  display: none;
+}
+
+.text__home {
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+}
+
+.buttons__home {
+  position: absolute;
+  bottom: 50px;
+}
+.buttons__home > button {
+  padding: 20px, 10px;
+  margin: 20px;
+  border-radius: 50px;
+  background-color: rgb(137, 74, 74);
+  padding: 10px;
+  color: aliceblue;
+  cursor: pointer;
+}
+.buttons__home > button:hover {
+  padding: 20px, 10px;
+  margin: 20px;
+  border-radius: 50px;
+  background-color: whitesmoke;
+  padding: 10px;
+  color: rgb(137, 74, 74);
+  cursor: pointer;
+}
