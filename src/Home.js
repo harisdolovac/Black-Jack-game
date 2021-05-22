@@ -1,11 +1,63 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
 
-const Home = () => {
-  const cards = [2, 3, 4, 5, 6, 7, 8, 9, "J", "Q", "K", "A"];
-  const [deck, setDeck] = useState([]); //novi dek sa kartama i njihovim vrednostima
-  const [karteUsera, setKarteUsera] = useState([]);
-  const [kartePc, setKartePc] = useState([]);
+const Newtest = () => {
+  const [deck, setDeck] = useState([]);
+  const [cards, setCards] = useState([
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    "J",
+    "Q",
+    "K",
+    "A",
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    "J",
+    "Q",
+    "K",
+    "A",
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    "J",
+    "Q",
+    "K",
+    "A",
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    "J",
+    "Q",
+    "K",
+    "A",
+  ]);
+  const [score, setScore] = useState(0);
+
+  const [cardsUsera, setCardsUsera] = useState([]);
+
+  const [cardsPc, setCardsPc] = useState([]);
   const [pcScore, setPcScore] = useState(0);
 
   const [userScore, setUserScore] = useState(0);
@@ -13,124 +65,137 @@ const Home = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    first();
-  }, []);
-
-  const first = () => {
-    for (let i = 0; i < cards.length; i++) {
-      const karta = cards[i];
-
-      let weight = 0;
-      if (karta === "J") {
-        weight = 5;
-      } else if (karta === "Q") {
-        weight = 7;
-      } else if (karta === "K") {
-        weight = 8;
-      } else if (karta === "A") {
-        weight = 9;
+    let total = 0;
+    cardsUsera.forEach((card) => {
+      if (card.value === "A" && total + 11 > 21) {
+        total += 1;
+      } else if (card.value === "A") {
+        total += 11;
+      } else if (card.value === "J") {
+        total += 10;
+      } else if (card.value === "Q") {
+        total += 10;
+      } else if (card.value === "K") {
+        total += 10;
       } else {
-        weight = karta;
+        total += card.value;
       }
-      let card = { karta, weight };
+    });
 
-      setDeck((prevState) => [...prevState, card]);
+    setUserScore(total);
+  }, [cardsUsera]); //calculate cards for user
+
+  useEffect(() => {
+    let total = 0;
+    cardsPc.forEach((card) => {
+      if (card.value === "A" && total + 11 > 21) {
+        total += 1;
+      } else if (card.value === "A") {
+        total += 11;
+      } else if (card.value === "J") {
+        total += 10;
+      } else if (card.value === "Q") {
+        total += 10;
+      } else if (card.value === "K") {
+        total += 10;
+      } else {
+        total += card.value;
+      }
+    });
+
+    setPcScore(total);
+  }, [cardsPc]); //calculate cards for Pc
+
+  useEffect(() => {
+    console.log(cards);
+    if (cards.length === 0) {
+      window.location.reload();
     }
-  }; // dodaje vrednosti kartama
+  }, [deck, cardsPc]);
 
-  let x = 0;
-  function rN() {
-    const rN = deck[Math.floor(Math.random() * deck.length)];
-    x = rN;
-  } // mesa karte
+  useEffect(() => {
+    if (userScore > 21) {
+      finalMessage("You Lost");
+    } else if (pcScore > userScore && pcScore <= 21) {
+      finalMessage("You Lost");
+    } else if (userScore === 21) {
+      finalMessage("You Win");
+    } else if (pcScore > 21) {
+      finalMessage("You Win");
+    } else if (userScore > 0 && userScore === pcScore) {
+      finalMessage("It's Tie");
+    }
+  }, [userScore, pcScore]); // check who is winner
+
+  useEffect(() => {
+    if (userScore > pcScore) {
+      setCardsPc((prevState) => [...prevState, rN()]);
+    }
+  }, [pcScore]); // run pc function until game is finished
+
+  const rN = () => {
+    const karta = cards[Math.floor(Math.random() * cards.length)];
+    const check = cards.filter((e) => e !== karta);
+    setCards(check);
+
+    return { value: karta };
+  };
+
+  const handleHitMe = () => {
+    setCardsUsera((prevState) => [...prevState, rN()]);
+  };
+
+  const finalMessage = (message) => {
+    setMessage(message);
+    setModalAtEnd((prev) => !prev);
+
+    if (modalAtEnd === true) {
+      startGame();
+    }
+  };
+
+  const stand = () => {
+    setCardsPc((prevState) => [...prevState, rN()]);
+  };
+
+  const log = () => {
+    console.log(deck);
+    console.log(cardsUsera);
+    console.log(rN());
+    console.log(score);
+    console.log(pcScore);
+  };
 
   function startGame() {
-    setKarteUsera([]);
-    setKartePc([]);
+    setCardsUsera([]);
+    setCardsPc([]);
     setUserScore(0);
     setPcScore(0);
   } // resetuje igru
 
-  let sumUser = 0;
-
-  const handleHitMe = () => {
-    rN();
-    //setKarteUsera((prevState) => [...prevState, x]);
-    karteUsera.push(x);
-
-    const valueUserDeck = karteUsera.reduce((acc, cv) => acc + cv.weight, 0);
-    sumUser = valueUserDeck;
-    setUserScore(valueUserDeck);
-
-    //setSumaUsera((prevState) => prevState + valueUserDeck);
-
-    if (userScore > 21) {
-      tests("You lose");
-      startGame();
-    }
-    if (userScore === 21) {
-      tests("You win");
-      startGame();
-    }
-  };
-
-  let sumPc = 0;
-
-  const stand = () => {
-    rN();
-    //  setKartePc((prevState) => [...prevState, x]);
-    kartePc.push(x);
-    const valuePcDeck = kartePc.reduce((acc, cv) => acc + cv.weight, 0);
-    sumPc = valuePcDeck;
-    setPcScore(valuePcDeck);
-
-    calculate();
-  };
-
-  const calculate = () => {
-    console.log(userScore, sumPc);
-    while (userScore > sumPc) {
-      stand();
-      if (sumPc > 21) {
-        tests("You win");
-        startGame();
-      } else if (sumPc == userScore) {
-        startGame();
-        tests("Tie");
-      } else if (sumPc > userScore && sumPc <= 21) {
-        startGame();
-        tests("You lose");
-      }
-    }
-    console.log("tvoj score je : ", userScore);
-    console.log("pc score je : ", sumPc);
-  }; // proverava uslove
-
-  const karte = karteUsera.map((item) => {
+  const Cards = cardsUsera.map((item) => {
     return (
-      <h1 style={{ marginLeft: "35px" }} key={Math.random() * 10000}>
-        {item.karta}
-      </h1>
+      <div style={{ marginLeft: "35px" }} key={Math.random() * 10000}>
+        {item.value}
+      </div>
     );
   });
 
-  const RandomKartePc = kartePc.map((item) => {
+  const randomCardsPC = cardsPc.map((item) => {
     return (
-      <h1 style={{ marginLeft: "35px" }} key={Math.random() * 10000}>
-        {item.karta}
-      </h1>
+      <div style={{ marginLeft: "35px" }} key={Math.random() * 10000}>
+        {item.value}
+      </div>
     );
   });
-
-  const tests = (message) => {
-    setMessage(message);
-    setModalAtEnd((prev) => !prev);
-  };
 
   return (
     <div className="wrapper_home">
       {modalAtEnd ? (
-        <div className={`${modalAtEnd ? "box" : "hidden"}`} onClick={tests}>
+        <div
+          className={`${modalAtEnd ? "box" : "hidden"}`}
+          onClick={finalMessage}
+        >
           <div className="text__home">
             <h1>Tvoj score: {userScore}</h1>
             <h1>Pc score: {pcScore}</h1>
@@ -139,18 +204,25 @@ const Home = () => {
         </div>
       ) : (
         <>
-          <h1>PC: {pcScore}</h1>
+          <h1 style={{ marginTop: "100px" }}>PC score: {pcScore}</h1>
           <h1 style={{ display: "flex", marginLeft: "40px" }}>
-            {RandomKartePc}
+            {randomCardsPC}
           </h1>
           <h1>User: {userScore}</h1>
-          <h1 style={{ display: "flex", marginLeft: "40px" }}>{karte}</h1>
+          <h1 style={{ display: "flex", marginLeft: "40px" }}>{Cards}</h1>
           <div className="buttons__home">
-            <button onClick={() => handleHitMe()} className="hit">
+            <button
+              onClick={() => handleHitMe()}
+              className="hit"
+              disabled={cardsPc > 0}
+            >
               Hit me
             </button>
 
-            <button onClick={() => stand()}>Stand</button>
+            <button onClick={() => stand()} disabled={cardsUsera.length === 0}>
+              Stand
+            </button>
+            <button onClick={log}>LOG</button>
           </div>
         </>
       )}
@@ -158,4 +230,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Newtest;
