@@ -5,9 +5,15 @@ import "./Home.css";
 const Newtest = () => {
   const [cards, setCards] = useState(cardsAndSign);
 
-  const [cardsUser, setCardsUser] = useState([]);
+  const [cardsUser, setCardsUser] = useState([
+    // { value: "A", sign: "♠" },
+    // { value: "A", sign: "♦" },
+  ]);
 
-  const [cardsPc, setCardsPc] = useState([]);
+  const [cardsPc, setCardsPc] = useState([
+    // { value: "A", sign: "♠" },
+    // { value: "A", sign: "♦" },
+  ]);
   const [pcScore, setPcScore] = useState(0);
 
   const [userScore, setUserScore] = useState(0);
@@ -79,7 +85,9 @@ const Newtest = () => {
 
   useEffect(() => {
     if (userScore > pcScore) {
-      setCardsPc((prevState) => [...prevState, randomCard()]);
+      setTimeout(() => {
+        setCardsPc((prevState) => [...prevState, randomCard()]);
+      }, 1000);
     }
   }, [pcScore]); // run pc function until game is finished
 
@@ -93,17 +101,19 @@ const Newtest = () => {
   const handleHitMe = () => {
     setTimeout(() => {
       setCardsUser((prevState) => [...prevState, randomCard()]);
-    }, 500);
+    }, 100);
   };
 
   const finalMessage = (message) => {
-    setMessage(message);
-
-    setModalAtEnd((prev) => !prev);
-
-    if (modalAtEnd === true) {
-      resetGame();
-    }
+    // //  setTimeout(() => {
+    // setModalAtEnd((prev) => !prev);
+    // // }, 200);
+    // if (modalAtEnd === true) {
+    //   resetGame();
+    // }
+    // // setTimeout(() => {
+    // setMessage(message);
+    // // }, 250);
   };
 
   const stand = () => {
@@ -119,26 +129,24 @@ const Newtest = () => {
 
   const Cards = cardsUser.map((item) => {
     return (
-      <div key={Math.random() * 10000} className="cardsUsera">
-        <div className="card">
-          {item.value}
-          <h1> {item.sign}</h1>
-        </div>
+      <div key={Math.random() * 10000} className="cards">
+        <div className="card__value">{item.value}</div>
+        <div className="card__sign"> {item.sign}</div>
       </div>
     );
   });
 
   const randomCardsPC = cardsPc.map((item) => {
     return (
-      <div key={Math.random() * 10000}>
-        {item.value}
-        {item.sign}
+      <div key={Math.random() * 10000} className="cards">
+        <div className="card__value"> {item.value}</div>
+        <div className="card__sign"> {item.sign}</div>
       </div>
     );
   });
 
   return (
-    <div className="">
+    <div>
       {modalAtEnd ? (
         <div
           className={`${modalAtEnd ? "box" : "hidden"}`}
@@ -155,11 +163,13 @@ const Newtest = () => {
           <div className="wrapper">
             <h1>PC score: {pcScore}</h1>
             <h3>Broj karti u spilu: {cards.length}</h3>
-            <h1>{randomCardsPC}</h1>
 
-            <h1>User: {userScore}</h1>
+            <span className="wrapper__Cards">{randomCardsPC}</span>
+            <div>
+              <h1>User: {userScore}</h1>
+            </div>
 
-            <h1 className="cards">{Cards}</h1>
+            <span className="wrapper__Cards">{Cards}</span>
 
             <div className="buttons__home">
               <button onClick={() => handleHitMe()} disabled={cardsPc > 0}>

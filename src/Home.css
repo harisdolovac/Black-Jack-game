@@ -1,44 +1,15 @@
-/* .wrapper_home {
-  width: 100%;
-  height: 100vh;
-  background-color: green;
-  display: flex;
-
-  align-items: center;
-  flex-direction: column;
-  margin: auto;
-  justify-content: space-around;
-}
-.box {
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  position: absolute;
-  opacity: 0.8;
-}
-.hidden {
-  display: none;
-}
-
 .text__home {
   color: rgb(255, 255, 255);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%);
-  transform: translateX(-50%);
+  align-self: center;
 }
-
-
-*/
 
 .wrapper {
   background-color: green;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-
+  min-height: 100vh;
   align-items: center;
 }
 
@@ -49,26 +20,6 @@
   display: flex;
 }
 
-.card {
-  border: 5px solid black;
-  border-radius: 10px;
-  background-color: white;
-  padding: 5px 35px;
-  margin-left: 10px;
-
-  animation-name: fade-in-top;
-  animation-duration: 1s;
-  animation-timing-function: ease;
-  animation-delay: 0s;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  animation-fill-mode: none;
-}
-
-.buttons__home {
-  position: absolute;
-  bottom: 5%;
-}
 .buttons__home > button {
   padding: 20px, 10px;
   margin: 20px;
@@ -77,6 +28,11 @@
   padding: 10px;
   color: aliceblue;
   cursor: pointer;
+}
+
+.buttons__home {
+  position: absolute;
+  bottom: 20px;
 }
 
 .buttons__home > button:hover {
@@ -111,5 +67,71 @@
     -webkit-transform: translateY(0);
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+.card {
+  border: 5px solid black;
+  border-radius: 10px;
+  background-color: white;
+  position: relative;
+  margin-left: 10px;
+  margin-top: 10px;
+
+  animation-name: fade-in-top;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+}
+
+.number {
+  padding-left: 10px;
+  margin: 0;
+}
+.sign {
+  padding: 0px 35px;
+  padding-bottom: 20px;
+  font-size: larger;
+}
+
+.cards {
+  background-color: whitesmoke;
+  border: 4px solid black;
+  border-radius: 10px;
+  width: 100px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 10px;
+}
+.wrapper__Cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.card__value {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  font-size: 200%;
+  font-weight: 800;
+}
+
+.card__sign {
+  font-size: 500%;
+}
+@media only screen and (max-width: 600px) {
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 300px;
+    margin-top: 2px;
   }
 }
