@@ -1,4 +1,4 @@
-.wrapper_home {
+/* .wrapper_home {
   width: 100%;
   height: 100vh;
   background-color: green;
@@ -29,9 +29,45 @@
   transform: translateX(-50%);
 }
 
+
+*/
+
+.wrapper {
+  background-color: green;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.cards__home {
+  display: flex;
+}
+.cards {
+  display: flex;
+}
+
+.card {
+  border: 5px solid black;
+  border-radius: 10px;
+  background-color: white;
+  padding: 5px 35px;
+  margin-left: 10px;
+
+  animation-name: fade-in-top;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+}
+
 .buttons__home {
   position: absolute;
-  bottom: 50px;
+  bottom: 5%;
 }
 .buttons__home > button {
   padding: 20px, 10px;
@@ -42,6 +78,7 @@
   color: aliceblue;
   cursor: pointer;
 }
+
 .buttons__home > button:hover {
   padding: 20px, 10px;
   margin: 20px;
@@ -50,4 +87,29 @@
   padding: 10px;
   color: rgb(137, 74, 74);
   cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+.box {
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(38, 133, 47);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes fade-in-top {
+  0% {
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

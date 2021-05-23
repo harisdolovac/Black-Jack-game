@@ -1,61 +1,11 @@
 import React, { useState, useEffect } from "react";
+import cardsAndSign from "./Cards";
 import "./Home.css";
 
 const Newtest = () => {
-  const [deck, setDeck] = useState([]);
-  const [cards, setCards] = useState([
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    "J",
-    "Q",
-    "K",
-    "A",
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    "J",
-    "Q",
-    "K",
-    "A",
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    "J",
-    "Q",
-    "K",
-    "A",
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    "J",
-    "Q",
-    "K",
-    "A",
-  ]);
-  const [score, setScore] = useState(0);
+  const [cards, setCards] = useState(cardsAndSign);
 
-  const [cardsUsera, setCardsUsera] = useState([]);
+  const [cardsUser, setCardsUser] = useState([]);
 
   const [cardsPc, setCardsPc] = useState([]);
   const [pcScore, setPcScore] = useState(0);
@@ -66,7 +16,7 @@ const Newtest = () => {
 
   useEffect(() => {
     let total = 0;
-    cardsUsera.forEach((card) => {
+    cardsUser.forEach((card) => {
       if (card.value === "A" && total + 11 > 21) {
         total += 1;
       } else if (card.value === "A") {
@@ -83,7 +33,7 @@ const Newtest = () => {
     });
 
     setUserScore(total);
-  }, [cardsUsera]); //calculate cards for user
+  }, [cardsUser]); //calculate cards for user
 
   useEffect(() => {
     let total = 0;
@@ -111,7 +61,7 @@ const Newtest = () => {
     if (cards.length === 0) {
       window.location.reload();
     }
-  }, [deck, cardsPc]);
+  }, [cards]);
 
   useEffect(() => {
     if (userScore > 21) {
@@ -129,68 +79,66 @@ const Newtest = () => {
 
   useEffect(() => {
     if (userScore > pcScore) {
-      setCardsPc((prevState) => [...prevState, rN()]);
+      setCardsPc((prevState) => [...prevState, randomCard()]);
     }
   }, [pcScore]); // run pc function until game is finished
 
-  const rN = () => {
-    const karta = cards[Math.floor(Math.random() * cards.length)];
-    const check = cards.filter((e) => e !== karta);
-    setCards(check);
-
-    return { value: karta };
+  const randomCard = () => {
+    const rnObj = cards[Math.floor(Math.random() * cards.length)];
+    const removeCard = cards.filter((e) => e !== rnObj);
+    setCards(removeCard);
+    return rnObj;
   };
 
   const handleHitMe = () => {
-    setCardsUsera((prevState) => [...prevState, rN()]);
+    setTimeout(() => {
+      setCardsUser((prevState) => [...prevState, randomCard()]);
+    }, 500);
   };
 
   const finalMessage = (message) => {
     setMessage(message);
+
     setModalAtEnd((prev) => !prev);
 
     if (modalAtEnd === true) {
-      startGame();
+      resetGame();
     }
   };
 
   const stand = () => {
-    setCardsPc((prevState) => [...prevState, rN()]);
+    setCardsPc((prevState) => [...prevState, randomCard()]);
   };
 
-  const log = () => {
-    console.log(deck);
-    console.log(cardsUsera);
-    console.log(rN());
-    console.log(score);
-    console.log(pcScore);
-  };
-
-  function startGame() {
-    setCardsUsera([]);
+  function resetGame() {
+    setCardsUser([]);
     setCardsPc([]);
     setUserScore(0);
     setPcScore(0);
-  } // resetuje igru
+  } // reset game
 
-  const Cards = cardsUsera.map((item) => {
+  const Cards = cardsUser.map((item) => {
     return (
-      <div style={{ marginLeft: "35px" }} key={Math.random() * 10000}>
-        {item.value}
+      <div key={Math.random() * 10000} className="cardsUsera">
+        <div className="card">
+          {item.value}
+          <h1> {item.sign}</h1>
+        </div>
       </div>
     );
   });
 
   const randomCardsPC = cardsPc.map((item) => {
     return (
-      <div style={{ marginLeft: "35px" }} key={Math.random() * 10000}>
+      <div key={Math.random() * 10000}>
         {item.value}
+        {item.sign}
       </div>
     );
   });
 
   return (
-    <div className="wrapper_home">
+    <div className="">
       {modalAtEnd ? (
         <div
           className={`${modalAtEnd ? "box" : "hidden"}`}
@@ -204,25 +152,24 @@ const Newtest = () => {
         </div>
       ) : (
         <>
-          <h1 style={{ marginTop: "100px" }}>PC score: {pcScore}</h1>
-          <h1 style={{ display: "flex", marginLeft: "40px" }}>
-            {randomCardsPC}
-          </h1>
-          <h1>User: {userScore}</h1>
-          <h1 style={{ display: "flex", marginLeft: "40px" }}>{Cards}</h1>
-          <div className="buttons__home">
-            <button
-              onClick={() => handleHitMe()}
-              className="hit"
-              disabled={cardsPc > 0}
-            >
-              Hit me
-            </button>
+          <div className="wrapper">
+            <h1>PC score: {pcScore}</h1>
+            <h3>Broj karti u spilu: {cards.length}</h3>
+            <h1>{randomCardsPC}</h1>
 
-            <button onClick={() => stand()} disabled={cardsUsera.length === 0}>
-              Stand
-            </button>
-            <button onClick={log}>LOG</button>
+            <h1>User: {userScore}</h1>
+
+            <h1 className="cards">{Cards}</h1>
+
+            <div className="buttons__home">
+              <button onClick={() => handleHitMe()} disabled={cardsPc > 0}>
+                Hit me
+              </button>
+
+              <button onClick={() => stand()} disabled={cardsUser.length === 0}>
+                Stand
+              </button>
+            </div>
           </div>
         </>
       )}
