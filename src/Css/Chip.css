@@ -1,0 +1,28 @@
+.chip__parent {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+}
+
+.chip__wrapper {
+  position: relative;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.chip {
+  width: 50px;
+}
+
+.chip__text {
+  color: black;
+  font-size: 18px;
+  font-weight: 800;
+  user-select: none;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  transform: translate(-50%, -50%);
+}

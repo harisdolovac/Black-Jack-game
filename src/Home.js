@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
 import cardsAndSign from "./Cards";
 import "./Home.css";
+import Chip from "./Components/Chip.js";
+import Header from "./Components/Header.js";
+import Buttons from "./Components/Buttons";
+import Modal from "./Components/Modal";
 
 const Newtest = () => {
   const [cards, setCards] = useState(cardsAndSign);
 
-  const [cardsUser, setCardsUser] = useState([
-    // { value: "A", sign: "♠" },
-    // { value: "A", sign: "♦" },
-  ]);
+  const [cardsUser, setCardsUser] = useState([]);
 
-  const [cardsPc, setCardsPc] = useState([
-    // { value: "A", sign: "♠" },
-    // { value: "A", sign: "♦" },
-  ]);
+  const [cardsPc, setCardsPc] = useState([]);
   const [pcScore, setPcScore] = useState(0);
+
+  const [bet, setBet] = useState(0);
+  const [amount, setAmount] = useState(2000);
 
   const [userScore, setUserScore] = useState(0);
   const [modalAtEnd, setModalAtEnd] = useState(false);
@@ -63,23 +64,36 @@ const Newtest = () => {
   }, [cardsPc]); //calculate cards for Pc
 
   useEffect(() => {
-    console.log(cards);
     if (cards.length === 0) {
       window.location.reload();
     }
   }, [cards]);
 
   useEffect(() => {
+    if (bet === 0 && amount === 0) {
+      finalMessage("You Lost everthing");
+    }
+  }, [bet]);
+
+  useEffect(() => {
     if (userScore > 21) {
       finalMessage("You Lost");
+      setBet(0);
     } else if (pcScore > userScore && pcScore <= 21) {
       finalMessage("You Lost");
+      setBet(0);
     } else if (userScore === 21) {
       finalMessage("You Win");
+      setAmount((prevAmount) => prevAmount + bet * 2);
+      setBet(0);
     } else if (pcScore > 21) {
       finalMessage("You Win");
+      setAmount((prevAmount) => prevAmount + bet * 2);
+      setBet(0);
     } else if (userScore > 0 && userScore === pcScore) {
       finalMessage("It's Tie");
+      setAmount((prevAmount) => prevAmount + bet);
+      setBet(0);
     }
   }, [userScore, pcScore]); // check who is winner
 
@@ -105,15 +119,15 @@ const Newtest = () => {
   };
 
   const finalMessage = (message) => {
-    // //  setTimeout(() => {
-    // setModalAtEnd((prev) => !prev);
-    // // }, 200);
-    // if (modalAtEnd === true) {
-    //   resetGame();
-    // }
-    // // setTimeout(() => {
-    // setMessage(message);
-    // // }, 250);
+    //  setTimeout(() => {
+    setModalAtEnd((prev) => !prev);
+    // }, 200);
+    if (modalAtEnd === true) {
+      resetGame();
+    }
+    // setTimeout(() => {
+    setMessage(message);
+    // }, 250);
   };
 
   const stand = () => {
@@ -129,18 +143,35 @@ const Newtest = () => {
 
   const Cards = cardsUser.map((item) => {
     return (
-      <div key={Math.random() * 10000} className="cards">
+      <div key={Math.random() * 10000} className="card">
         <div className="card__value">{item.value}</div>
-        <div className="card__sign"> {item.sign}</div>
+
+        <div
+          className={
+            item.sign === "♦" || item.sign === "♥"
+              ? "card__sign red"
+              : "card__sign"
+          }
+        >
+          {item.sign}
+        </div>
       </div>
     );
   });
 
   const randomCardsPC = cardsPc.map((item) => {
     return (
-      <div key={Math.random() * 10000} className="cards">
+      <div key={Math.random() * 10000} className="card">
         <div className="card__value"> {item.value}</div>
-        <div className="card__sign"> {item.sign}</div>
+        <div
+          className={
+            item.sign === "♦" || item.sign === "♥"
+              ? "card__sign red"
+              : "card__sign"
+          }
+        >
+          {item.sign}
+        </div>
       </div>
     );
   });
@@ -148,38 +179,41 @@ const Newtest = () => {
   return (
     <div>
       {modalAtEnd ? (
-        <div
-          className={`${modalAtEnd ? "box" : "hidden"}`}
-          onClick={finalMessage}
-        >
-          <div className="text__home">
-            <h1>Tvoj score: {userScore}</h1>
-            <h1>Pc score: {pcScore}</h1>
-            <h1>{message}</h1>
-          </div>
-        </div>
+        <Modal
+          modalAtEnd={modalAtEnd}
+          finalMessage={finalMessage}
+          message={message}
+        />
       ) : (
         <>
           <div className="wrapper">
-            <h1>PC score: {pcScore}</h1>
-            <h3>Broj karti u spilu: {cards.length}</h3>
-
-            <span className="wrapper__Cards">{randomCardsPC}</span>
-            <div>
-              <h1>User: {userScore}</h1>
+            <Header
+              userScore={userScore}
+              bet={bet}
+              amount={amount}
+              pcScore={pcScore}
+            />
+            <div className="content">
+              <div className="card__wrapper user">{Cards}</div>
+              <div className="card__wrapper pc">{randomCardsPC}</div>
             </div>
 
-            <span className="wrapper__Cards">{Cards}</span>
+            <Buttons
+              handleHitMe={handleHitMe}
+              cardsPc={cardsPc}
+              bet={bet}
+              stand={stand}
+              cardsUser={cardsUser}
+            />
 
-            <div className="buttons__home">
-              <button onClick={() => handleHitMe()} disabled={cardsPc > 0}>
-                Hit me
-              </button>
+            <Chip
+              cardsPc={cardsPc}
+              setBet={setBet}
+              setAmount={setAmount}
+              amount={amount}
+            />
 
-              <button onClick={() => stand()} disabled={cardsUser.length === 0}>
-                Stand
-              </button>
-            </div>
+            {bet === 0 ? <div className="placeBet">Place bet: </div> : null}
           </div>
         </>
       )}

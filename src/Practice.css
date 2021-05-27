@@ -1,0 +1,114 @@
+/* .practiceWrapper {
+  background-color: red;
+  height: 100vh;
+}
+
+.card__wrapperP {
+  background-color: rgb(71, 227, 68);
+  display: flex;
+  justify-content: space-around;
+
+  height: 350px;
+  align-items: center;
+}
+.card__wrapper {
+  background-color: purple;
+  justify-items: center;
+  display: grid;
+  grid-auto-rows: minmax(50px, auto);
+  grid-template-columns: repeat(3, 70px);
+}
+
+.card1 {
+  width: 70px;
+
+  background-color: yellow;
+  border: 3px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.card1:nth-child(3n - 2) {
+  transform: translate(20px, 10px) rotate(-15deg);
+  background-color: red;
+  margin-top: -20px;
+}
+.card1:nth-child(3n-1) {
+  transform: translate(-15px, -10px) rotate(-5deg);
+  background-color: blue;
+  margin-top: -20px;
+}
+.card1:nth-child(3n) {
+  transform: translate(-50px, -10px) rotate(15deg);
+  margin-top: -20px;
+}
+
+.card1:nth-child(n + 4) {
+  background-color: #fff;
+
+  margin-top: -30px;
+}
+
+
+.number {
+  position: absolute;
+
+  top: -3px;
+  left: 3px;
+  font-size: 30px;
+  font-weight: 800;
+}
+.sign {
+  font-size: 70px;
+}
+
+.buttonP {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: -80px;
+  position: a;
+}
+
+button {
+  background-color: royalblue;
+
+  padding: 10px;
+}
+
+.parent {
+  background-color: violet;
+  height: 100vh;
+}
+.child {
+  background-color: tomato;
+  height: 50px;
+} */
+
+/* .background {
+  height: 100vh;
+  background-color: aquamarine;
+  display: grid;
+  grid-template-rows: 1fr 4fr 1fr;
+}
+
+.header {
+  background-color: blue;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+.buttons {
+  background-color: chartreuse;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.footer {
+  background-color: blueviolet;
+} */
