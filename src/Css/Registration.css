@@ -1,0 +1,7 @@
+.registration__wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+  flex-wrap: wrap;
+}

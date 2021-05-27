@@ -1,0 +1,13 @@
+.table__wrapper {
+  display: flex;
+  border: 3px solid black;
+  justify-content: space-around;
+  padding: 10px 0;
+  list-style: none;
+}
+.table__wrapper > ul {
+  list-style: none;
+}
+.table__wrapper > li {
+  border: 3px solid black;
+}

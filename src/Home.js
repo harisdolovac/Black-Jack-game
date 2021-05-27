@@ -119,9 +119,8 @@ const Newtest = () => {
   };
 
   const finalMessage = (message) => {
-    //  setTimeout(() => {
     setModalAtEnd((prev) => !prev);
-    // }, 200);
+
     if (modalAtEnd === true) {
       resetGame();
     }
