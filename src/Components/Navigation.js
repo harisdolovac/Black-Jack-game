@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 
 const Navigation = () => {
   return (
-    <div style={{ backgroundColor: "chocolate" }}>
+    <div
+      style={{
+        backgroundColor: "chocolate",
+        height: "10vh",
+      }}
+    >
       <div className="button__wrapper">
         <Link to="/">
           <button className="button">Home</button>

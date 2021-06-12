@@ -1,28 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "./App.css";
 
 import Home from "./Home";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Registration from "./Registration/Registration";
 import Table from "./Pages/Table";
 import Navigation from "./Components/Navigation";
 
+import SignUpTest from "./TestFire/SignUpTest";
+import TableData from "./Pages/TableData";
+
 function App() {
+  const [amount, setAmount] = useState(2000);
+
   return (
     <div className="App">
       <BrowserRouter>
         <Navigation />
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home amount={amount} setAmount={setAmount} />
           </Route>
           <Route path="/register">
-            <Registration />
+            <SignUpTest amount={amount} setAmount={setAmount} />
           </Route>
           <Route path="/scoreBoard">
-            <Table />
+            {/* <Table /> */}
+            <TableData amount={amount} />
           </Route>
         </Switch>
       </BrowserRouter>

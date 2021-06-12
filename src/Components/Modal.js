@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modal = ({ modalAtEnd, finalMessage, message }) => {
+const Modal = ({ modalAtEnd, finalMessage, message, pcScore, userScore }) => {
   return (
     <div>
       <div
@@ -9,6 +9,8 @@ const Modal = ({ modalAtEnd, finalMessage, message }) => {
       >
         <div className="text__home">
           <h1>{message}</h1>
+          <span> Your score:</span> <h1> {userScore}</h1>
+          <span> Pc score:</span> <h1> {pcScore}</h1>
         </div>
       </div>
     </div>

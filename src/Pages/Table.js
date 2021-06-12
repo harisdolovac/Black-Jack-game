@@ -3,83 +3,60 @@ import fire from "../fire";
 
 import "../Css/Table.css";
 
-const Table = () => {
-  const [name, setName] = useState("");
-  const [score, setScore] = useState();
-
-  const [userData, setUserData] = useState([]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const firestore = fire.database().ref("/UserInfo");
-    let data = { FirstName: name, Score: score };
-
-    firestore.push(data);
-  };
-
-  useEffect(() => {
-    const firestore = fire.database().ref("/UserInfo");
-    firestore.on("value", (response) => {
-      const data = response.val();
-      let userInfo = [];
-      for (let id in data) {
-        userInfo.push({
-          id: id,
-          name: data[id].FirstName,
-          score: data[id].Score,
-        });
-      }
-      setUserData(userInfo);
-    });
-  }, []);
-
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleScore = (e) => {
-    setScore(e.target.value);
+const Table = ({ userData }) => {
+  const logOut = () => {
+    fire.auth().signOut();
   };
 
   const userName = userData.map((item) => {
-    return <li key={item.id}>{item.name}</li>;
+    return (
+      <div key={item.id}>
+        {console.log(item)}
+        <td>{item.FirstName}</td>
+      </div>
+    );
   });
   const userScore = userData.map((item) => {
-    return <li key={item.id}>{item.score}</li>;
+    return <td key={item.id}>{item.Score}</td>;
   });
+
+  //console.log(userName);
 
   return (
     <div>
-      <div className="table__wrapper">
-        <ul>
-          <li>Name:</li>
-          <li>{userName}</li>
-        </ul>
-        <ul>
-          <li>Score:</li>
-
-          <li>{userScore}</li>
-        </ul>
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          onChange={handleName}
-          name="firstName"
-          value={name}
-        />
-        <input
-          type="number"
-          onChange={handleScore}
-          name="score"
-          value={score}
-        />
-        <input type="submit" />
-      </form>
-
-      <button onClick={() => console.log(userData)}>Loggg</button>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Score</th>
+        </tr>
+        <tr>
+          <td>{userName}</td>
+          <td>Email</td>
+          <td style={{}} >{userScore}</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td>Ernst Handel</td>
+          <td>Roland Mendel</td>
+          <td>Austria</td>
+        </tr>
+        <tr>
+          <td>Island Trading</td>
+          <td>Helen Bennett</td>
+          <td>UK</td>
+        </tr>
+        <tr>
+          <td>Laughing Bacchus Winecellars</td>
+          <td>Yoshi Tannamuri</td>
+          <td>Canada</td>
+        </tr>
+        <tr>
+          <td>Magazzini Alimentari Riuniti</td>
+          <td>Giovanni Rovelli</td>
+          <td>Italy</td>
+        </tr>
+      </table>
     </div>
   );
 };

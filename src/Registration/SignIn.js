@@ -1,48 +1,72 @@
 import React from "react";
 
-const SignIn = () => {
+const SignIn = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  handleLogin,
+  handleSignUp,
+  hasAccount,
+  setHasAccount,
+  // emailError,
+  // passwordError,
+  setUserName,
+  userName,
+}) => {
   return (
     <div>
       <form>
-        <h3>Sign up</h3>
-
+        <div className="form-group">
+          <label>Username</label>
+          <input
+            type="name"
+            required
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Enter Username"
+          />
+        </div>
         <div className="form-group">
           <label>Email</label>
           <input
             type="email"
-            className="form-control"
-            placeholder="Enter email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter Email"
           />
+          {/* <p>{emailError}</p> */}
         </div>
 
         <div className="form-group">
           <label>Password</label>
           <input
             type="password"
-            className="form-control"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter password"
           />
+          {/* <p>{passwordError}</p> */}
         </div>
-
-        <div className="form-group">
-          <div className="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              className="custom-control-input"
-              id="customCheck1"
-            />
-            <label className="custom-control-label" htmlFor="customCheck1">
-              Remember me
-            </label>
+        {hasAccount ? (
+          <div>
+            <button onClick={handleLogin}>Sign in</button>
+            <p>
+              Don't have an account ?
+              <span onClick={() => setHasAccount(!hasAccount)}>Sign up</span>
+            </p>
           </div>
-        </div>
-
-        <button type="submit" className="btn btn-dark btn-lg btn-block">
-          Sign in
-        </button>
-        <p className="forgot-password text-right">
-          Forgot <a href="#">password?</a>
-        </p>
+        ) : (
+          <div>
+            <button onClick={handleSignUp}>Sign up</button>
+            <p>
+              Allredy have an account ?
+              <span onClick={() => setHasAccount(!hasAccount)}>Sign in</span>
+            </p>
+          </div>
+        )}
       </form>
     </div>
   );

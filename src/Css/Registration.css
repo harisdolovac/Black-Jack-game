@@ -4,4 +4,20 @@
   align-items: center;
   height: 100vh;
   flex-wrap: wrap;
+  background-color: blue;
+}
+
+input {
+  width: 100%;
+
+  font-size: 19px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+
+  letter-spacing: 1px;
+}
+
+.errorMsg {
+  color: red;
+  font-size: 16px;
 }

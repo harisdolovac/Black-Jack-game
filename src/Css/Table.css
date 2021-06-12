@@ -1,13 +1,17 @@
-.table__wrapper {
-  display: flex;
-  border: 3px solid black;
-  justify-content: space-around;
-  padding: 10px 0;
-  list-style: none;
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+  margin: 0 auto;
 }
-.table__wrapper > ul {
-  list-style: none;
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
 }
-.table__wrapper > li {
-  border: 3px solid black;
+
+tr:nth-child(even) {
+  background-color: #dddddd;
 }

@@ -1,107 +1,84 @@
 import React, { useState, useEffect } from "react";
+
 import cardsAndSign from "./Cards";
-import "./Home.css";
 import Chip from "./Components/Chip.js";
 import Header from "./Components/Header.js";
 import Buttons from "./Components/Buttons";
 import Modal from "./Components/Modal";
 
-const Newtest = () => {
+import "./Home.css";
+
+const Home = ({ amount, setAmount }) => {
   const [cards, setCards] = useState(cardsAndSign);
 
   const [cardsUser, setCardsUser] = useState([]);
-
   const [cardsPc, setCardsPc] = useState([]);
-  const [pcScore, setPcScore] = useState(0);
 
   const [bet, setBet] = useState(0);
-  const [amount, setAmount] = useState(2000);
 
+  const [pcScore, setPcScore] = useState(0);
   const [userScore, setUserScore] = useState(0);
+
   const [modalAtEnd, setModalAtEnd] = useState(false);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
+  const calculate = (card, setScore) => {
     let total = 0;
-    cardsUser.forEach((card) => {
-      if (card.value === "A" && total + 11 > 21) {
+
+    card.forEach((card) => {
+      if (card.value !== "A") {
+        if (card.value === "J" || card.value === "Q" || card.value === "K") {
+          total += 10;
+        } else {
+          total += card.value;
+        }
+      }
+    });
+    const aces = cardsUser.filter((card) => {
+      return card.value === "A";
+    });
+    aces.forEach((card) => {
+      if ((aces.length > 1 && total + 11 > 21) || total + 11 > 21) {
         total += 1;
-      } else if (card.value === "A") {
-        total += 11;
-      } else if (card.value === "J") {
-        total += 10;
-      } else if (card.value === "Q") {
-        total += 10;
-      } else if (card.value === "K") {
-        total += 10;
       } else {
-        total += card.value;
+        total += 11;
       }
     });
 
-    setUserScore(total);
-  }, [cardsUser]); //calculate cards for user
+    setScore(total);
+  };
 
   useEffect(() => {
-    let total = 0;
-    cardsPc.forEach((card) => {
-      if (card.value === "A" && total + 11 > 21) {
-        total += 1;
-      } else if (card.value === "A") {
-        total += 11;
-      } else if (card.value === "J") {
-        total += 10;
-      } else if (card.value === "Q") {
-        total += 10;
-      } else if (card.value === "K") {
-        total += 10;
-      } else {
-        total += card.value;
-      }
-    });
-
-    setPcScore(total);
-  }, [cardsPc]); //calculate cards for Pc
+    calculate(cardsUser, setUserScore);
+    calculate(cardsPc, setPcScore);
+  }, [cardsUser, cardsPc]);
 
   useEffect(() => {
-    if (cards.length === 0) {
-      window.location.reload();
-    }
-  }, [cards]);
-
-  useEffect(() => {
-    if (bet === 0 && amount === 0) {
-      finalMessage("You Lost everthing");
-    }
-  }, [bet]);
-
-  useEffect(() => {
-    if (userScore > 21) {
-      finalMessage("You Lost");
+    if (
+      userScore > 21 ||
+      (pcScore > userScore && pcScore <= 21 && cardsPc.length > 1)
+    ) {
+      setMessage("You Lost");
+      modalTime();
       setBet(0);
-    } else if (pcScore > userScore && pcScore <= 21) {
-      finalMessage("You Lost");
-      setBet(0);
-    } else if (userScore === 21) {
-      finalMessage("You Win");
-      setAmount((prevAmount) => prevAmount + bet * 2);
-      setBet(0);
-    } else if (pcScore > 21) {
-      finalMessage("You Win");
-      setAmount((prevAmount) => prevAmount + bet * 2);
-      setBet(0);
-    } else if (userScore > 0 && userScore === pcScore) {
-      finalMessage("It's Tie");
+    } else if (cardsPc.length > 1 && userScore === pcScore) {
+      setMessage("It's Tie");
+      modalTime();
       setAmount((prevAmount) => prevAmount + bet);
+      setBet(0);
+    } else if (userScore === 21 || pcScore > 21) {
+      setMessage("You Win");
+      modalTime();
+      setAmount((prevAmount) => prevAmount + bet * 2);
       setBet(0);
     }
   }, [userScore, pcScore]); // check who is winner
 
   useEffect(() => {
-    if (userScore > pcScore) {
+    if (userScore > pcScore && cardsPc.length > 1) {
       setTimeout(() => {
         setCardsPc((prevState) => [...prevState, randomCard()]);
-      }, 1000);
+      }, 1500);
     }
   }, [pcScore]); // run pc function until game is finished
 
@@ -112,33 +89,18 @@ const Newtest = () => {
     return rnObj;
   };
 
+  const handleDeal = () => {
+    handleHitMe();
+    handleHitMe();
+    stand();
+  }; //deal cards
+
   const handleHitMe = () => {
-    setTimeout(() => {
-      setCardsUser((prevState) => [...prevState, randomCard()]);
-    }, 100);
+    setCardsUser((prevState) => [...prevState, randomCard()]);
   };
-
-  const finalMessage = (message) => {
-    setModalAtEnd((prev) => !prev);
-
-    if (modalAtEnd === true) {
-      resetGame();
-    }
-    // setTimeout(() => {
-    setMessage(message);
-    // }, 250);
-  };
-
   const stand = () => {
     setCardsPc((prevState) => [...prevState, randomCard()]);
   };
-
-  function resetGame() {
-    setCardsUser([]);
-    setCardsPc([]);
-    setUserScore(0);
-    setPcScore(0);
-  } // reset game
 
   const Cards = cardsUser.map((item) => {
     return (
@@ -175,6 +137,35 @@ const Newtest = () => {
     );
   });
 
+  function modalTime() {
+    setTimeout(() => {
+      setModalAtEnd((prev) => !prev);
+    }, 2000);
+  } // moadl at end
+
+  const finalMessage = () => {
+    setModalAtEnd((prev) => !prev);
+    if (modalAtEnd === true) {
+      setCardsUser([]);
+      setCardsPc([]);
+      setUserScore(0);
+      setPcScore(0);
+    }
+  }; // reset game
+
+  useEffect(() => {
+    if (cards.length === 0) {
+      window.location.reload();
+    }
+  }, [cards]); //reload page if you lost everything
+
+  useEffect(() => {
+    if (bet === 0 && amount === 0) {
+      setMessage("You Lost everthing");
+      setAmount(2000);
+    }
+  }, [bet]); //reset bet and amonut if you lose everthing
+
   return (
     <div>
       {modalAtEnd ? (
@@ -182,6 +173,8 @@ const Newtest = () => {
           modalAtEnd={modalAtEnd}
           finalMessage={finalMessage}
           message={message}
+          pcScore={pcScore}
+          userScore={userScore}
         />
       ) : (
         <>
@@ -192,6 +185,7 @@ const Newtest = () => {
               amount={amount}
               pcScore={pcScore}
             />
+
             <div className="content">
               <div className="card__wrapper user">{Cards}</div>
               <div className="card__wrapper pc">{randomCardsPC}</div>
@@ -199,6 +193,7 @@ const Newtest = () => {
 
             <Buttons
               handleHitMe={handleHitMe}
+              handleDeal={handleDeal}
               cardsPc={cardsPc}
               bet={bet}
               stand={stand}
@@ -212,7 +207,9 @@ const Newtest = () => {
               amount={amount}
             />
 
-            {bet === 0 ? <div className="placeBet">Place bet: </div> : null}
+            {bet === 0 && userScore === 0 ? (
+              <div className="placeBet">Place bet: </div>
+            ) : null}
           </div>
         </>
       )}
@@ -220,4 +217,4 @@ const Newtest = () => {
   );
 };
 
-export default Newtest;
+export default Home;

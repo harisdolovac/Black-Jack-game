@@ -1,10 +1,11 @@
 import React from "react";
 
-const SignUp = () => {
+const SignUp = ({ handleLogout }) => {
   return (
     <div>
-      <form>
-        <h3>Log in</h3>
+      <button onClick={handleLogout}>log iut</button>
+      {/* <form>
+        <h3>Sign up</h3>
 
         <div className="form-group">
           <label>Email</label>
@@ -43,7 +44,7 @@ const SignUp = () => {
         <p className="forgot-password text-right">
           Forgot <a href="#">password?</a>
         </p>
-      </form>
+      </form> */}
     </div>
   );
 };

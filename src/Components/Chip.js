@@ -22,8 +22,9 @@ const Chip = ({ cardsPc, setBet, setAmount, amount }) => {
   return (
     <div className="chip__parent">
       <div
-        disabled={cardsPc > 0}
-        className={amount < 500 ? "hidden" : "chip__wrapper"}
+        className={
+          amount < 500 || cardsPc.length > 0 ? "hidden" : "chip__wrapper"
+        }
         onClick={() => handle500()}
       >
         <div className="chip__text"> 500 </div>
@@ -32,8 +33,9 @@ const Chip = ({ cardsPc, setBet, setAmount, amount }) => {
 
       <div
         onClick={() => handle100()}
-        disabled={cardsPc > 0}
-        className={amount < 100 ? "hidden" : "chip__wrapper"}
+        className={
+          amount < 100 || cardsPc.length > 0 ? "hidden" : "chip__wrapper"
+        }
       >
         <div className="chip__text"> 100 </div>
         <img src={chip} alt="chip100" className="chip" />
@@ -41,8 +43,9 @@ const Chip = ({ cardsPc, setBet, setAmount, amount }) => {
 
       <div
         onClick={() => handle10()}
-        disabled={cardsPc > 0}
-        className={amount < 10 ? "hidden" : "chip__wrapper"}
+        className={
+          amount < 10 || cardsPc.length > 0 ? "hidden" : "chip__wrapper"
+        }
       >
         <div className="chip__text"> 10 </div>
         <img src={chip} alt="chip100" className="chip" />
