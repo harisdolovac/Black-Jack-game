@@ -9,13 +9,8 @@
 }
 
 .wrapper {
-  background-image: url("https://t4.ftcdn.net/jpg/03/25/38/41/360_F_325384191_sg1D5lYWfRedGQsBm8xIHnsSAUUUVxGE.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 90vh;
-  width: auto;
   display: grid;
-  grid-template-rows: 1fr 3fr 2fr 2fr;
+  grid-template-rows: 1fr 2fr 2fr;
 }
 
 .wrapper__Cards {
@@ -38,8 +33,9 @@
 
 .content {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
+  flex-wrap: wrap;
 }
 .card__wrapper {
   justify-items: center;
@@ -77,14 +73,6 @@
   margin-top: -30px;
 }
 
-.footer {
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  justify-content: space-around;
-  background-color: blue; */
-}
-
 .hidden {
   display: none;
 }
@@ -115,10 +103,10 @@
   color: #fff;
 
   font-size: 100px;
-  position: absolute;
+  /* position: absolute;
 
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.8;
+  opacity: 0.8; */
 }

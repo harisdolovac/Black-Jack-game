@@ -1,4 +1,5 @@
 import React from "react";
+import "../Css/Signin.css";
 
 const SignIn = ({
   email,
@@ -9,53 +10,56 @@ const SignIn = ({
   handleSignUp,
   hasAccount,
   setHasAccount,
-  // emailError,
-  // passwordError,
+  emailError,
+  passwordError,
   setUserName,
   userName,
 }) => {
   return (
-    <div>
+    <div className="form__signin">
       <form>
-        <div className="form-group">
+        <div className={hasAccount ? "hidden" : ""}>
           <label>Username</label>
           <input
-            type="name"
+            type="text"
             required
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             placeholder="Enter Username"
           />
         </div>
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter Email"
-          />
-          {/* <p>{emailError}</p> */}
-        </div>
 
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
-          />
-          {/* <p>{passwordError}</p> */}
-        </div>
+        <label>Email</label>
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter Email"
+        />
+        <p className="errorMsg">{emailError}</p>
+
+        <label>Password</label>
+        <input
+          type="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter password"
+        />
+        <p className="errorMsg">{passwordError}</p>
+
         {hasAccount ? (
           <div>
             <button onClick={handleLogin}>Sign in</button>
             <p>
               Don't have an account ?
-              <span onClick={() => setHasAccount(!hasAccount)}>Sign up</span>
+              <span
+                onClick={() => setHasAccount(!hasAccount)}
+                className="hasAccount__signin"
+              >
+                Sign up
+              </span>
             </p>
           </div>
         ) : (
@@ -63,7 +67,12 @@ const SignIn = ({
             <button onClick={handleSignUp}>Sign up</button>
             <p>
               Allredy have an account ?
-              <span onClick={() => setHasAccount(!hasAccount)}>Sign in</span>
+              <span
+                onClick={() => setHasAccount(!hasAccount)}
+                className="hasAccount__signin"
+              >
+                Sign in
+              </span>
             </p>
           </div>
         )}

@@ -3,11 +3,16 @@
   margin: 0;
   padding: 0;
 }
+html,
+body {
+  min-height: 100vh;
 
-/* .App {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-} */
+  background-color: darkgreen;
+  background-image: url("https://t4.ftcdn.net/jpg/03/25/38/41/360_F_325384191_sg1D5lYWfRedGQsBm8xIHnsSAUUUVxGE.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.App {
+  height: 100%;
+}

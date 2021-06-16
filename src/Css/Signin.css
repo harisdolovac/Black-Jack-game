@@ -1,0 +1,18 @@
+.form__signin {
+  background-color: rgb(24, 44, 44);
+  padding: 20px;
+  border-radius: 10px;
+}
+.hasAccount__signin {
+  cursor: pointer;
+  color: rgb(94, 112, 250);
+  padding-left: 10px;
+}
+.hasAccount__signin:hover {
+  font-weight: 600;
+  color: red;
+}
+p,
+label {
+  color: rgb(255, 8, 8);
+}

@@ -34,7 +34,7 @@ const Home = ({ amount, setAmount }) => {
         }
       }
     });
-    const aces = cardsUser.filter((card) => {
+    const aces = card.filter((card) => {
       return card.value === "A";
     });
     aces.forEach((card) => {
@@ -188,6 +188,9 @@ const Home = ({ amount, setAmount }) => {
 
             <div className="content">
               <div className="card__wrapper user">{Cards}</div>
+              {bet === 0 && userScore === 0 ? (
+                <div className="placeBet">Place bet: </div>
+              ) : null}
               <div className="card__wrapper pc">{randomCardsPC}</div>
             </div>
 
@@ -206,10 +209,6 @@ const Home = ({ amount, setAmount }) => {
               setAmount={setAmount}
               amount={amount}
             />
-
-            {bet === 0 && userScore === 0 ? (
-              <div className="placeBet">Place bet: </div>
-            ) : null}
           </div>
         </>
       )}

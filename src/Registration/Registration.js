@@ -1,66 +1,82 @@
+/* eslint-disable default-case */
 import React, { useState, useEffect } from "react";
-import fire, { auth } from "../fire";
+import fire from "../fire";
+import { useHistory } from "react-router-dom";
 
 import SignIn from "./SignIn";
-import Home from "../Home";
 
 import "../Css/Registration.css";
-import SignUp from "./SignUp";
 
-const Registration = () => {
+const Registration = ({ amount }) => {
   const [user, setUser] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
-  // const [emailError, setEmailError] = useState("");
-  // const [passwordError, setPasswordError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  let history = useHistory();
 
   const clearInputs = () => {
     setEmail("");
-    // setPasswordError("");
+    setPasswordError("");
   };
 
   const clearErrors = () => {
-    // setPasswordError("");
-    // setEmailError("");
+    setPasswordError("");
+    setEmailError("");
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     clearErrors();
-    fire.auth().signInWithEmailAndPassword(email, password);
-    // .catch((err) => {
-    //   switch (err.code) {
-    //     case "auth/invalid-email":
-    //     case "auth/user-disabled":
-    //     case "auth/user-not-found":
-    //       setEmailError(err.message);
-    //       break;
-    //     case "auth/wrong-password":
-    //       setPasswordError(err.message);
-    //       break;
-    //   }
-    // });
+    fire
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch((err) => {
+        switch (err.code) {
+          case "auth/invalid-email":
+          case "auth/user-disabled":
+          case "auth/user-not-found":
+            setEmailError(err.message);
+            break;
+          case "auth/wrong-password":
+            setPasswordError(err.message);
+            break;
+        }
+      });
   };
 
   const handleSignUp = (e) => {
     e.preventDefault();
     clearErrors();
 
-    console.log(email, password, user);
-    fire.auth().createUserWithEmailAndPassword(email, password);
+    fire
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
 
-    // .catch((err) => {
-    //   switch (err.code) {
-    //     case "auth/email-alredy-in-use":
-    //     case "auth/invalid-email":
-    //       setEmailError(err.message);
-    //       break;
-    //     case "auth/weak-password":
-    //       setPasswordError(err.message);
-    //       break;
-    //   }
-    // });
+      .catch((err) => {
+        switch (err.code) {
+          case "auth/email-already-in-use":
+            setEmailError(err.message);
+            break;
+          case "auth/invalid-email":
+            setEmailError(err.message);
+            break;
+          case "auth/weak-password":
+            setPasswordError(err.message);
+            break;
+        }
+      });
+    fire.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        history.push("/");
+        user.updateProfile({
+          displayName: userName,
+        });
+      }
+    });
   };
 
   const handleLogout = () => {
@@ -72,6 +88,13 @@ const Registration = () => {
       if (user) {
         clearInputs();
         setUser(user);
+        fire
+          .database()
+          .ref("UserInfo/" + user.uid)
+          .set({
+            FirstName: user.displayName,
+            Score: amount,
+          });
       } else {
         setUser("");
       }
@@ -80,16 +103,20 @@ const Registration = () => {
 
   useEffect(() => {
     authListener();
-  }, []);
+  }, [amount]);
 
   return (
     <div className="registration__wrapper">
       {user ? (
         <div>
-          <button onClick={() => handleLogout()}>log iut</button>
-          <button onClick={() => console.log("treba usera da pojavim", user)}>
-            log usera
-          </button>
+          <h3>
+            You are sign in as: <h2>{user.displayName}</h2>
+            <h3>
+              With email:<h2>{user.email}</h2> If this is not your
+              account,please log out
+            </h3>
+          </h3>
+          <button onClick={() => handleLogout()}>Log out</button>
         </div>
       ) : (
         <SignIn
@@ -101,13 +128,12 @@ const Registration = () => {
           handleSignUp={handleSignUp}
           hasAccount={hasAccount}
           setHasAccount={setHasAccount}
-          // emailError={emailError}
-          // passwordError={passwordError}
+          emailError={emailError}
+          passwordError={passwordError}
           setUserName={setUserName}
           userName={userName}
         />
       )}
-      {/* <SignUp /> */}
     </div>
   );
 };

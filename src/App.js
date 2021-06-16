@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-
-import "./App.css";
-
-import Home from "./Home";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Table from "./Pages/Table";
+import Home from "./Home";
 import Navigation from "./Components/Navigation";
-
-import SignUpTest from "./TestFire/SignUpTest";
 import TableData from "./Pages/TableData";
+import Registration from "./Registration/Registration";
+
+import "./App.css";
 
 function App() {
   const [amount, setAmount] = useState(2000);
@@ -23,11 +20,13 @@ function App() {
             <Home amount={amount} setAmount={setAmount} />
           </Route>
           <Route path="/register">
-            <SignUpTest amount={amount} setAmount={setAmount} />
+            <Registration amount={amount} />
           </Route>
           <Route path="/scoreBoard">
-            {/* <Table /> */}
             <TableData amount={amount} />
+          </Route>
+          <Route path="/registration">
+            <Registration amount={amount} />
           </Route>
         </Switch>
       </BrowserRouter>

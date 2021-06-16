@@ -2,7 +2,8 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 80%;
-  margin: 0 auto;
+  margin: 30px auto;
+  background-color: #33783a;
 }
 
 td,
@@ -14,4 +15,13 @@ th {
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.user__register {
+  background-color: green !important;
+  border: 5px solid red;
+}
+.icon__table {
+  width: 20px;
+  cursor: pointer;
 }

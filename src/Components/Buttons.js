@@ -21,6 +21,7 @@ const Buttons = ({
       <button
         onClick={() => handleHitMe()}
         className={cardsPc.length === 0 || bet === 0 ? "hidden" : "button"}
+        disabled={cardsPc.length > 1}
       >
         Hit me
       </button>

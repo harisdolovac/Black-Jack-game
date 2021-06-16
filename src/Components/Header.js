@@ -1,6 +1,5 @@
 import React from "react";
 import "../Css/Header.css";
-import Navigation from "./Navigation";
 
 const Header = ({ userScore, bet, amount, pcScore }) => {
   return (

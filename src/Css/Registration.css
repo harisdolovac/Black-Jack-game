@@ -1,23 +1,48 @@
 .registration__wrapper {
+  height: 90vh;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  height: 100vh;
-  flex-wrap: wrap;
-  background-color: blue;
 }
 
 input {
   width: 100%;
-
   font-size: 19px;
   padding: 10px;
   background: rgba(255, 255, 255, 0.1);
-
   letter-spacing: 1px;
 }
 
 .errorMsg {
   color: red;
   font-size: 16px;
+}
+
+.signUp__register {
+  width: 80%;
+  margin: 0 auto;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #04aa6d;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
 }

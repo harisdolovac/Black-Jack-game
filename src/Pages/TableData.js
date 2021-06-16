@@ -6,9 +6,8 @@ import fire from "../fire";
 const TableData = ({ amount }) => {
   const [userData, setUserData] = useState([]);
 
+  var user = fire.auth().currentUser; //kupi korisnika
   useEffect(() => {
-    var user = fire.auth().currentUser; //kupi korisnika
-
     if (user != null) {
       fire
         .database()
@@ -28,11 +27,11 @@ const TableData = ({ amount }) => {
         setUserData((prevData) => [...prevData, data[key]]);
       }
     }); //cita iz baze
-  }, [amount]);
+  }, [amount, user]);
 
   return (
     <div>
-      <Table userData={userData} />
+      <Table userData={userData} user={user} />
     </div>
   );
 };
